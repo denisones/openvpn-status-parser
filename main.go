@@ -9,15 +9,15 @@ import (
 )
 
 type Header struct {
-	CLIENT_LIST   []map[string]string
-	ROUTING_TABLE []map[string]string
-	GLOBAL_STATS  string
+	CLIENT_LIST   []map[string]string `json:"clientList"`
+	ROUTING_TABLE []map[string]string `json:"routingTable"`
+	GLOBAL_STATS  string              `json:"globalStats"`
 }
 
 type Result struct {
-	TITLE  string
-	TIME   string
-	HEADER Header
+	TITLE  string   `json:"title"`
+	TIME   []string `json:"time"`
+	HEADER Header   `json:"header"`
 }
 
 func main() {
@@ -39,7 +39,7 @@ func main() {
 
 	result := Result{
 		TITLE: "",
-		TIME:  "",
+		TIME:  []string{},
 		HEADER: Header{
 			CLIENT_LIST:   []map[string]string{},
 			ROUTING_TABLE: []map[string]string{},
@@ -56,7 +56,7 @@ func main() {
 			result.TITLE = frames[1]
 		}
 		if "TIME" == frames[0] {
-			result.TIME = frames[1]
+			result.TIME = frames[1:]
 		}
 		if "HEADER" == frames[0] && "CLIENT_LIST" == frames[1] {
 			clientListHeader = frames[2:]
